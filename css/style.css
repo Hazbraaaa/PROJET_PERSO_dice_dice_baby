@@ -1,0 +1,68 @@
+/* Global */
+body {
+    text-align: center;
+}
+
+/* Header */
+header {
+    padding: 10px;
+}
+h1 {
+    text-align: center;
+}
+h2 {
+    text-align: center;
+}
+
+/* Main */
+section {
+    padding: 10px;
+}
+div {
+    padding: 10px;
+}
+div img {
+    height: 20px;
+}
+.game {
+    background-color: lightblue;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.player {
+    background-color: blue;
+}
+.button {
+    background-color: yellow;
+}
+.playerName {
+    background-color: red;
+}
+.hand {
+    background-color: lightgreen;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.dice {
+    background-color: white;
+    margin: 10px;
+}
+.board {
+    background-color: brown;
+}
+.grid {
+    display: grid;
+    grid-template-columns: 4fr 4fr 4fr 4fr;
+}
+.card {
+    background-color: beige;
+    margin: 10px;
+}
+
+/* Footer */
+footer {
+    padding: 10px 0;
+    margin: 0;
+}
