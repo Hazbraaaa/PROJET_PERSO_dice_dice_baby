@@ -1,99 +1,89 @@
-function rollOneDice() {
-    return Math.floor(Math.random() * 6) + 1;
+const game = {
+    //délaration des propriétés (variables)
+
+    players: {
+        playerOne: {
+            number: 1,
+            name: "Joueur1",
+            hand: [5],
+            score: 0,
+        },
+        playerTwo: {
+            number: 2,
+            name: "Joueur2",
+            hand: [5],
+            score: 0,
+        },
+    },
+
+    //déclaration des méthodes (fonctions)
+
+    definePlayers: () => {
+        game.players.playerOne.name = prompt("Nom du Joueur 1 ?");
+        game.players.playerTwo.name = prompt("Nom du Joueur 2 ?");
+        document.querySelector("#p1").innerHTML = game.players.playerOne.name;
+        document.querySelector("#p2").innerHTML = game.players.playerTwo.name;
+    },
+
+    resetGame: () => {
+        game.players.playerOne.score = 0;
+        game.players.playerTwo.score = 0;
+    },
+
+    rollOneDice: () => {
+        return Math.floor(Math.random() * 6) + 1;
+    },
+
+    firstThrow: (playerName) => {
+        for (let i = 0; i < 5; i++) {
+            game.players[playerName].hand[i] = game.rollOneDice();
+        }
+        return game.players[playerName].hand;
+    },
+
+    showHand: (playerName) => {
+        for (let i = 0; i < 5; i++) {
+            document.querySelector(`#p${game.players[playerName].number}_d${i + 1}`).innerHTML = `<img src="../img/face${game.players[playerName].hand[i]}.webp" alt="Face ${game.players[playerName].hand[i]}">`;
+        }
+    },
+
+    calculateScore: (playerName) => {
+        for (let i = 0; i < game.players[playerName].hand.length; i++) {
+            game.players[playerName].score += game.players[playerName].hand[i];
+        }
+    },
+
+    whoWin: (firstScore, secondScore) => {
+        if (firstScore > secondScore) {
+            document.querySelector("h2").innerHTML = `${game.players.playerOne.name} gagne avec ${firstScore} contre ${secondScore} !`;
+        }
+        else if (firstScore < secondScore) {
+            document.querySelector("h2").innerHTML = `${game.players.playerTwo.name} gagne avec ${secondScore} contre ${firstScore} !`;
+        }
+        else {
+            document.querySelector("h2").innerHTML = "Egalité !";
+        }
+    },
+
+    battle: () => {
+        game.resetGame();
+        game.firstThrow("playerOne");
+        game.showHand("playerOne");
+        game.calculateScore("playerOne");
+        game.firstThrow("playerTwo");
+        game.showHand("playerTwo");
+        game.calculateScore("playerTwo");
+        game.whoWin(game.players.playerOne.score, game.players.playerTwo.score);
+    },
+
+
+
 }
 
-function firstThrow(dice) {
-    for (let i = 0; i < 5; i++) {
-        dice[i] = rollOneDice();
-    }
-    return dice;
-}
+//ligne d'execution de la commande
 
-function showHand(dice,player) {
-    for (let i = 0; i < 5; i++) {    
-        if (dice[i] == 1) {
-            document.querySelector(`#p${player}_d${i+1}`).innerHTML = '<img src="../img/face1.webp" alt="Face 1">';
-        }
-        if (dice[i] == 2) {
-            document.querySelector(`#p${player}_d${i+1}`).innerHTML = '<img src="../img/face2.webp" alt="Face 2">';
-        }
-        if (dice[i] == 3) {
-            document.querySelector(`#p${player}_d${i+1}`).innerHTML = '<img src="../img/face3.webp" alt="Face 3">';
-        }
-        if (dice[i] == 4) {
-            document.querySelector(`#p${player}_d${i+1}`).innerHTML = '<img src="../img/face4.webp" alt="Face 4">';
-        }
-        if (dice[i] == 5) {
-            document.querySelector(`#p${player}_d${i+1}`).innerHTML = '<img src="../img/face5.webp" alt="Face 5">';
-        }
-        if (dice[i] == 6) {
-            document.querySelector(`#p${player}_d${i+1}`).innerHTML = '<img src="../img/face6.webp" alt="Face 6">';
-        }
-    }
-}
-
-function launch() {
-        dice1 = firstThrow(dice1);
-        showHand(dice1,1);
-        let score1 = dice1[0]+dice1[1]+dice1[2]+dice1[3]+dice1[4];
-        dice2 = firstThrow(dice2);
-        showHand(dice2,2);
-        let score2 = dice2[0]+dice2[1]+dice2[2]+dice2[3]+dice2[4];
-        if (score1 > score2) {
-            console.log("player one win with "+score1+" against "+score2); 
-        }
-        if (score1 < score2) {
-            console.log("player two win with "+score2+" against "+score1); 
-        }
-}
-
-function definePlayers () {
-    let namePlayerOne = prompt("Nom du Joueur 1 ?");
-    let namePlayerTwo = prompt("Nom du Joueur 2 ?");
-    document.querySelector("#p1").innerHTML = namePlayerOne;
-    document.querySelector("#p2").innerHTML = namePlayerTwo;
-}
-
-definePlayers();
 let button = document.querySelector("input");
-let dice1 = [];
-let dice2 = [];
-button.addEventListener("click", launch);
 
-
-
-
-
-/*
-function fisrtThrow() {
-
-}
-function secondThrow() {
-
-}
-function secondThrow() {
-
-}
-function selectDiceToThrow() {
-
-}
-function initHand() {
-
-}
-
-
-
-//structure script
-
-fisrtThrow();
-showHand();
-if (need a second throw) {
-    selectDiceToThrow();
-    secondThrow();
-    showHand();
-}
-if (need a third throw) {
-    selectDiceToThrow();
-    thirdThrow();
-    showHand();
-}*/
+document.querySelector("h2").innerHTML = "Bienvenue dans ce petit jeu. Lancez les dés !";
+game.definePlayers();
+button.addEventListener("click", game.battle);
